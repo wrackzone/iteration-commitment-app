@@ -114,7 +114,7 @@ Ext.define('CustomApp', {
 					var config1 = { 
 						model : "User", 
 						fetch : true, 
-						filters : [app.createWsapiFilter(owners,"ObjectID")],
+						filters : owners.lenght > 0 ? [app.createWsapiFilter(owners,"ObjectID")] : null,
 						context : { project : null}
 					};
 
@@ -125,7 +125,7 @@ Ext.define('CustomApp', {
 					var config2 = { 
 						model : "Iteration", 
 						fetch : true, 
-						filters : [app.createWsapiFilter(iterations,"ObjectID")],
+						filters : iterations.length > 0 ? [app.createWsapiFilter(iterations,"ObjectID")] : null,
 						context : { project : null}
 					};
 					
