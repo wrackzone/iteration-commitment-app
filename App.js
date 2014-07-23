@@ -96,6 +96,11 @@ Ext.define('CustomApp', {
 					console.log("Deferred",scopedOut);
 					console.log("Original",original);
 
+					if ((scopedOut.length===0) && (original.length===0)) {
+						Rally.ui.notify.Notifier.show({message: "No items to show!"});
+						return;
+					}
+
 					var owners = _.compact(
 						_.uniq( 
 							_.map(_.union(original,scopedOut),function(s){ return s.get("Owner");})));
@@ -103,7 +108,7 @@ Ext.define('CustomApp', {
 					var config1 = { 
 						model : "User", 
 						fetch : true, 
-						filters : owners.lenght > 0 ? [app.createWsapiFilter(owners,"ObjectID")] : null,
+						filters : owners.length > 0 ? [app.createWsapiFilter(owners,"ObjectID")] : [],
 						context : { project : null}
 					};
 
@@ -114,7 +119,7 @@ Ext.define('CustomApp', {
 					var config2 = { 
 						model : "Iteration", 
 						fetch : true, 
-						filters : iterations.length > 0 ? [app.createWsapiFilter(iterations,"ObjectID")] : null,
+						filters : iterations.length > 0 ? [app.createWsapiFilter(iterations,"ObjectID")] : [],
 						context : { project : null}
 					};
 					
@@ -217,6 +222,8 @@ Ext.define('CustomApp', {
 	},
 
 	_wsapiQuery : function( config , callback ) {
+
+		console.log("wsapi config",config);
 
 		Ext.create('Rally.data.WsapiDataStore', {
 			autoLoad : true,
